@@ -1,14 +1,36 @@
 {
-  "name": "typescript",
-  "version": "1.0.0",
-  "main": "src/index.ts",
+  "name": "itrs",
+  "version": "0.0.3",
   "license": "MIT",
+  "main": "dist/index.ts",
+  "typings": "typings/index.d.ts",
+  "homepage": "https://github.com/Danue1/itrs.git",
+  "bugs": {
+    "email": "public.danuel@gmail.com",
+    "url": "https://github.com/Danue1/itrs/issues"
+  },
+  "keywords": [
+    "iterator",
+    "iterable",
+    "functional",
+    "programming",
+    "functional programming",
+    "array",
+    "generator",
+    "es6",
+    "es7",
+    "es8",
+    "es9",
+    "esnext",
+    "itrs"
+  ],
   "scripts": {
     "start": "ts-node src",
+    "build": "tsc",
     "test": "jest --verbose",
-    "test:watch": "jest --watchAll --verbose"
+    "test:watch": "jest --watchAll --verbose",
+    "precompile": "tsc"
   },
-  "typings": "src/typings.d.ts",
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/jest": "^24.0.13",

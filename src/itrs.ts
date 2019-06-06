@@ -14,13 +14,13 @@ import {
 } from "./intermediates";
 import { toArrayBy } from "./consumables";
 
-export const iter = <T>(items: Iterable<T>) =>
-  __iter(function*() {
+export const itrs = <T>(items: Iterable<T>) =>
+  __itrs(function*() {
     yield* items;
   });
 
-iter.generate = <T>(f: (index: number) => T) =>
-  __iter(function*() {
+itrs.generate = <T>(f: (index: number) => T) =>
+  __itrs(function*() {
     let index = 0;
     while (true) {
       yield f(index);
@@ -28,8 +28,8 @@ iter.generate = <T>(f: (index: number) => T) =>
     }
   });
 
-iter.range = (start: number, end: number, step = 1) =>
-  __iter(function*() {
+itrs.range = (start: number, end: number, step = 1) =>
+  __itrs(function*() {
     start = Math.floor(start);
     end = Math.floor(end);
 
@@ -42,9 +42,9 @@ iter.range = (start: number, end: number, step = 1) =>
     }
   });
 
-const __iter = <T>(items: () => IterableIterator<T>) => new Iter(items());
+const __itrs = <T>(items: () => IterableIterator<T>) => new Itrs(items());
 
-export class BaseIter<T> {
+export class BaseItrs<T> {
   public constructor(protected readonly items: IterableIterator<T>) {}
 
   public *[Symbol.iterator]() {
@@ -52,24 +52,24 @@ export class BaseIter<T> {
   }
 }
 
-export class IntermediatableIter<T> extends BaseIter<T> {
+export class IntermediatableItrs<T> extends BaseItrs<T> {
   public scanBy<S>(
     initialItem: S,
     f: (previous: S, item: T, index: number) => Option<S>
   ) {
-    return __iter(scanBy(this.items, initialItem, f));
+    return __itrs(scanBy(this.items, initialItem, f));
   }
 
   public mapBy<N>(f: (item: T, index: number) => N) {
-    return __iter(mapBy(this.items, f));
+    return __itrs(mapBy(this.items, f));
   }
 
   public filterBy(f: (item: T, index: number) => boolean) {
-    return __iter(filterBy(this.items, f));
+    return __itrs(filterBy(this.items, f));
   }
 
   public filterMap(f: (item: T, index: number) => Option<T>) {
-    return __iter(filterMapBy(this.items, f));
+    return __itrs(filterMapBy(this.items, f));
   }
 
   public flat() {
@@ -77,7 +77,7 @@ export class IntermediatableIter<T> extends BaseIter<T> {
   }
 
   public flatBy<I>(f: (item: T, index: number) => I) {
-    return __iter(flatBy(this.items, f));
+    return __itrs(flatBy(this.items, f));
   }
 
   public take(size: number) {
@@ -85,7 +85,7 @@ export class IntermediatableIter<T> extends BaseIter<T> {
   }
 
   public takeBy(f: (item: T, index: number) => boolean) {
-    return __iter(takeBy(this.items, f));
+    return __itrs(takeBy(this.items, f));
   }
 
   public skip(item: T) {
@@ -93,7 +93,7 @@ export class IntermediatableIter<T> extends BaseIter<T> {
   }
 
   public skipBy(f: (item: T, index: number) => boolean) {
-    return __iter(skipBy(this.items, f));
+    return __itrs(skipBy(this.items, f));
   }
 
   public step(count: number) {
@@ -110,7 +110,7 @@ export class IntermediatableIter<T> extends BaseIter<T> {
   }
 
   public chunkBy(f: (item: T, index: number) => boolean) {
-    return __iter(chunkBy(this.items, f));
+    return __itrs(chunkBy(this.items, f));
   }
 
   public windows(size: number) {
@@ -124,7 +124,7 @@ export class IntermediatableIter<T> extends BaseIter<T> {
   }
 
   public enumerate() {
-    return __iter(mapBy(this.items, (item, index) => [item, index]));
+    return __itrs(mapBy(this.items, (item, index) => [item, index]));
   }
 
   public debug() {
@@ -132,15 +132,15 @@ export class IntermediatableIter<T> extends BaseIter<T> {
   }
 
   public debugBy(f: (item: T, index: number) => void) {
-    return __iter(mapBy(this.items, (item, index) => (f(item, index), item)));
+    return __itrs(mapBy(this.items, (item, index) => (f(item, index), item)));
   }
 
   public chain(iterator: Iterable<T>) {
-    return __iter(chain(this.items, iterator));
+    return __itrs(chain(this.items, iterator));
   }
 }
 
-export class ConsumableIter<T> extends IntermediatableIter<T> {
+export class ConsumableItrs<T> extends IntermediatableItrs<T> {
   public toArray() {
     return toArrayBy(this, identity);
   }
@@ -271,4 +271,4 @@ export class ConsumableIter<T> extends IntermediatableIter<T> {
   }
 }
 
-export class Iter<T> extends ConsumableIter<T> {}
+export class Itrs<T> extends ConsumableItrs<T> {}

@@ -1,43 +1,43 @@
 import { expect } from "chai";
 
 import {
-  iter,
-  Iter,
-  BaseIter,
-  IntermediatableIter,
-  ConsumableIter
-} from "../src/Iter";
+  itrs,
+  Itrs,
+  BaseItrs,
+  IntermediatableItrs,
+  ConsumableItrs
+} from "../src/itrs";
 
-describe("Iter Structure", () => {
-  it("IntermediatableIter should inherit a BaseIter", () => {
-    expect(IntermediatableIter.prototype).to.be.instanceOf(BaseIter);
+describe("Itrs Structure", () => {
+  it("IntermediatableItrs should inherit a BaseItrs", () => {
+    expect(IntermediatableItrs.prototype).to.be.instanceOf(BaseItrs);
   });
 
-  it("ConsumableIter should inherit a IntermediatableIter", () => {
-    expect(ConsumableIter.prototype).to.be.instanceOf(IntermediatableIter);
+  it("ConsumableItrs should inherit a IntermediatableItrs", () => {
+    expect(ConsumableItrs.prototype).to.be.instanceOf(IntermediatableItrs);
   });
 
-  it("Iter should inherit a ConsumableIter", () => {
-    expect(Iter.prototype).to.be.instanceOf(ConsumableIter);
-  });
-});
-
-describe("iter", () => {
-  it("should return an Iter instance", () => {
-    expect(iter([])).to.be.instanceOf(Iter);
+  it("Itrs should inherit a ConsumableItrs", () => {
+    expect(Itrs.prototype).to.be.instanceOf(ConsumableItrs);
   });
 });
 
-describe("BaseIter", () => {
+describe("itrs", () => {
+  it("should return an Itrs instance", () => {
+    expect(itrs([])).to.be.instanceOf(Itrs);
+  });
+});
+
+describe("BaseItrs", () => {
   it("should be a iterable", () => {
     const generatorFunction = function*() {}.constructor;
-    expect(BaseIter.prototype)
+    expect(BaseItrs.prototype)
       .to.be.have.property((Symbol.iterator as any) as string)
       .that.is.instanceOf(generatorFunction);
   });
 });
 
-describe("IntermediatableIter", () => {
+describe("IntermediatableItrs", () => {
   it("should have intermediatable methods", () => {
     const methods = [
       "scanBy",
@@ -62,12 +62,12 @@ describe("IntermediatableIter", () => {
       "chain"
     ];
     for (const method of methods) {
-      expect(IntermediatableIter.prototype).to.be.have.property(method);
+      expect(IntermediatableItrs.prototype).to.be.have.property(method);
     }
   });
 });
 
-describe("ConsumableIter", () => {
+describe("ConsumableItrs", () => {
   it("should have consumable methods", () => {
     const methods = [
       "toArray",
@@ -91,7 +91,7 @@ describe("ConsumableIter", () => {
       "forEach"
     ];
     for (const method of methods) {
-      expect(ConsumableIter.prototype).to.be.have.property(method);
+      expect(ConsumableItrs.prototype).to.be.have.property(method);
     }
   });
 });

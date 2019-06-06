@@ -1,7 +1,7 @@
-import { Iter } from "./Iter";
+import { itrs } from "./itrs";
 
 export declare global {
   interface Array<T> {
-    iter: () => Iter<T>;
+    iter: () => itrs<T>;
   }
 }

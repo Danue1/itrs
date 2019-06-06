@@ -1,14 +1,18 @@
-# iter
+# itrs
+
+ES6 Iteration Protocol based Functional Programming Library
+
+Want you have a pretty document? [Please, PR it](https://github.com/Danue1/itrs/pulls).
 
 # usage
 
 ## forEach
 
 ```typescript
-import "iter";
+import { itrs } from "itrs";
 
 const items = [3, 6, 5, 7, 3, 0];
-for (const item of items.iter().filter(item => item % 2 === 0)) {
+for (const item of itrs(items).filter(item => item % 2 === 0)) {
   console.log(item);
 }
 // 6
@@ -18,11 +22,10 @@ for (const item of items.iter().filter(item => item % 2 === 0)) {
 ## toArray
 
 ```typescript
-import "iter";
+import { itrs } from "itrs";
 
 const items = [3, 6, 5, 7, 3, 0];
-const result = items
-  .iter()
+const result = itrs(items)
   .map(item => item * 2)
   .toArray();
 console.log(result); // [6, 12, 10, 14, 6, 0]
@@ -31,10 +34,10 @@ console.log(result); // [6, 12, 10, 14, 6, 0]
 ## chunk
 
 ```typescript
-import "iter";
+import { itrs } from "itrs";
 
 const items = [3, 6, 5, 7, 3, 0];
-for (const item of items.chunk(2)) {
+for (const item of itrs(items).chunk(2)) {
   console.log(item);
 }
 // [3, 6]
@@ -45,9 +48,9 @@ for (const item of items.chunk(2)) {
 ## infinite
 
 ```typescript
-import { iter } from "iter";
+import { itrs } from "itrs";
 
-for (const index of iter.range(1, 5)) {
+for (const index of itrs.range(1, 5)) {
   console.log(index);
 }
 // 1
